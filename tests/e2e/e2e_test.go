@@ -76,7 +76,7 @@ func waitForLokiReady(ctx context.Context, baseURL string, timeout time.Duration
 	for time.Now().Before(deadline) {
 		resp, err := http.Get(baseURL + "/ready")
 		if err == nil {
-			resp.Body.Close()
+			_ = resp.Body.Close()
 			if resp.StatusCode == http.StatusOK {
 				return nil
 			}
@@ -125,7 +125,7 @@ func pushTestLogs(ctx context.Context, baseURL string) error {
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode != http.StatusNoContent && resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("push failed with status %d", resp.StatusCode)
@@ -213,10 +213,10 @@ func TestQueryRange(t *testing.T) {
 		}
 
 		var resp loki.QueryResponse
-		json.Unmarshal([]byte(getResultText(result)), &resp)
+		_ = json.Unmarshal([]byte(getResultText(result)), &resp)
 
 		var streams []loki.StreamResult
-		json.Unmarshal(resp.Data.Result, &streams)
+		_ = json.Unmarshal(resp.Data.Result, &streams)
 
 		totalEntries := 0
 		for _, s := range streams {
@@ -242,10 +242,10 @@ func TestQueryRange(t *testing.T) {
 		}
 
 		var resp loki.QueryResponse
-		json.Unmarshal([]byte(getResultText(result)), &resp)
+		_ = json.Unmarshal([]byte(getResultText(result)), &resp)
 
 		var streams []loki.StreamResult
-		json.Unmarshal(resp.Data.Result, &streams)
+		_ = json.Unmarshal(resp.Data.Result, &streams)
 
 		if len(streams) == 0 || len(streams[0].Values) < 2 {
 			t.Fatal("expected multiple entries")
@@ -342,7 +342,7 @@ func TestLabelValues(t *testing.T) {
 		}
 
 		var values []string
-		json.Unmarshal([]byte(getResultText(result)), &values)
+		_ = json.Unmarshal([]byte(getResultText(result)), &values)
 
 		found := map[string]bool{"nginx": false, "api": false}
 		for _, v := range values {
@@ -371,7 +371,7 @@ func TestLabelValues(t *testing.T) {
 		}
 
 		var values []string
-		json.Unmarshal([]byte(getResultText(result)), &values)
+		_ = json.Unmarshal([]byte(getResultText(result)), &values)
 
 		found := map[string]bool{"production": false, "staging": false}
 		for _, v := range values {
@@ -435,7 +435,7 @@ func TestSeries(t *testing.T) {
 		}
 
 		var series []map[string]string
-		json.Unmarshal([]byte(getResultText(result)), &series)
+		_ = json.Unmarshal([]byte(getResultText(result)), &series)
 
 		// Should have 3 series total: nginx/info, nginx/error, api/info
 		if len(series) != 3 {
@@ -460,7 +460,7 @@ func TestWorkflow_DiscoverThenQuery(t *testing.T) {
 	}
 
 	var labels []string
-	json.Unmarshal([]byte(getResultText(result)), &labels)
+	_ = json.Unmarshal([]byte(getResultText(result)), &labels)
 	t.Logf("discovered labels: %v", labels)
 
 	// Step 2: Get values for "app" label
@@ -475,7 +475,7 @@ func TestWorkflow_DiscoverThenQuery(t *testing.T) {
 	}
 
 	var appValues []string
-	json.Unmarshal([]byte(getResultText(result)), &appValues)
+	_ = json.Unmarshal([]byte(getResultText(result)), &appValues)
 	t.Logf("app values: %v", appValues)
 
 	// Step 3: Query logs for the first discovered app
@@ -497,11 +497,11 @@ func TestWorkflow_DiscoverThenQuery(t *testing.T) {
 	}
 
 	var resp loki.QueryResponse
-	json.Unmarshal([]byte(getResultText(result)), &resp)
+	_ = json.Unmarshal([]byte(getResultText(result)), &resp)
 	t.Logf("queried app=%s: resultType=%s", appValues[0], resp.Data.ResultType)
 
 	var streams []loki.StreamResult
-	json.Unmarshal(resp.Data.Result, &streams)
+	_ = json.Unmarshal(resp.Data.Result, &streams)
 
 	totalEntries := 0
 	for _, s := range streams {

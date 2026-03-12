@@ -28,7 +28,7 @@ func TestQueryRange(t *testing.T) {
 		if r.URL.Query().Get("query") != `{app="test"}` {
 			t.Errorf("unexpected query param: %s", r.URL.Query().Get("query"))
 		}
-		json.NewEncoder(w).Encode(map[string]any{
+		_ = json.NewEncoder(w).Encode(map[string]any{
 			"status": "success",
 			"data": map[string]any{
 				"resultType": "streams",
@@ -58,7 +58,7 @@ func TestQuery(t *testing.T) {
 		if r.URL.Path != "/loki/api/v1/query" {
 			t.Errorf("unexpected path: %s", r.URL.Path)
 		}
-		json.NewEncoder(w).Encode(map[string]any{
+		_ = json.NewEncoder(w).Encode(map[string]any{
 			"status": "success",
 			"data": map[string]any{
 				"resultType": "streams",
@@ -82,7 +82,7 @@ func TestLabels(t *testing.T) {
 		if r.URL.Path != "/loki/api/v1/labels" {
 			t.Errorf("unexpected path: %s", r.URL.Path)
 		}
-		json.NewEncoder(w).Encode(map[string]any{
+		_ = json.NewEncoder(w).Encode(map[string]any{
 			"status": "success",
 			"data":   []string{"app", "env"},
 		})
@@ -103,7 +103,7 @@ func TestLabelValues(t *testing.T) {
 		if r.URL.Path != "/loki/api/v1/label/app/values" {
 			t.Errorf("unexpected path: %s", r.URL.Path)
 		}
-		json.NewEncoder(w).Encode(map[string]any{
+		_ = json.NewEncoder(w).Encode(map[string]any{
 			"status": "success",
 			"data":   []string{"nginx", "api"},
 		})
@@ -127,7 +127,7 @@ func TestSeries(t *testing.T) {
 		if r.URL.Query().Get("match[]") != `{app="nginx"}` {
 			t.Errorf("unexpected match param: %s", r.URL.Query().Get("match[]"))
 		}
-		json.NewEncoder(w).Encode(map[string]any{
+		_ = json.NewEncoder(w).Encode(map[string]any{
 			"status": "success",
 			"data":   []map[string]string{{"app": "nginx"}},
 		})
@@ -152,7 +152,7 @@ func TestAuthHeaders(t *testing.T) {
 			if !ok || user != "admin" || pass != "secret" {
 				t.Errorf("basic auth not set correctly: ok=%v user=%q pass=%q", ok, user, pass)
 			}
-			json.NewEncoder(w).Encode(map[string]any{"status": "success", "data": []string{}})
+			_ = json.NewEncoder(w).Encode(map[string]any{"status": "success", "data": []string{}})
 		}))
 		defer ts.Close()
 
@@ -170,7 +170,7 @@ func TestAuthHeaders(t *testing.T) {
 			if r.Header.Get("Authorization") != "Bearer mytoken" {
 				t.Errorf("bearer token not set: %q", r.Header.Get("Authorization"))
 			}
-			json.NewEncoder(w).Encode(map[string]any{"status": "success", "data": []string{}})
+			_ = json.NewEncoder(w).Encode(map[string]any{"status": "success", "data": []string{}})
 		}))
 		defer ts.Close()
 
@@ -187,7 +187,7 @@ func TestAuthHeaders(t *testing.T) {
 			if r.Header.Get("X-Scope-OrgID") != "tenant1" {
 				t.Errorf("tenant ID not set: %q", r.Header.Get("X-Scope-OrgID"))
 			}
-			json.NewEncoder(w).Encode(map[string]any{"status": "success", "data": []string{}})
+			_ = json.NewEncoder(w).Encode(map[string]any{"status": "success", "data": []string{}})
 		}))
 		defer ts.Close()
 
@@ -204,7 +204,7 @@ func TestLokiErrorParsing(t *testing.T) {
 	t.Run("structured loki error", func(t *testing.T) {
 		ts, client := newTestServer(func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(w).Encode(map[string]any{
+			_ = json.NewEncoder(w).Encode(map[string]any{
 				"status":    "error",
 				"errorType": "bad_data",
 				"error":     "parse error at line 1",
@@ -224,7 +224,7 @@ func TestLokiErrorParsing(t *testing.T) {
 	t.Run("raw error", func(t *testing.T) {
 		ts, client := newTestServer(func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("internal error"))
+			_, _ = w.Write([]byte("internal error"))
 		})
 		defer ts.Close()
 
@@ -239,7 +239,7 @@ func TestLokiErrorParsing(t *testing.T) {
 
 	t.Run("success envelope with error status", func(t *testing.T) {
 		ts, client := newTestServer(func(w http.ResponseWriter, r *http.Request) {
-			json.NewEncoder(w).Encode(map[string]any{
+			_ = json.NewEncoder(w).Encode(map[string]any{
 				"status": "error",
 				"data":   []string{},
 			})
