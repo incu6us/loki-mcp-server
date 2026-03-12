@@ -1,0 +1,66 @@
+version: 2
+project_name: loki-mcp-server
+
+builds:
+  - main: ./cmd/loki-mcp-server
+    binary: loki-mcp-server
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+      - freebsd
+    goarch:
+      - amd64
+      - arm64
+      - "386"
+      - ppc64le
+      - s390x
+      - riscv64
+    ignore:
+      - goos: darwin
+        goarch: "386"
+      - goos: darwin
+        goarch: ppc64le
+      - goos: darwin
+        goarch: s390x
+      - goos: darwin
+        goarch: riscv64
+      - goos: windows
+        goarch: ppc64le
+      - goos: windows
+        goarch: s390x
+      - goos: windows
+        goarch: riscv64
+      - goos: freebsd
+        goarch: ppc64le
+      - goos: freebsd
+        goarch: s390x
+      - goos: freebsd
+        goarch: riscv64
+
+archives:
+  - formats:
+      - tar.gz
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
+
+checksum:
+  name_template: "checksums.txt"
+
+brews:
+  - repository:
+      owner: incu6us
+      name: homebrew-tap
+    directory: Formula
+    name: loki-mcp-server
+    homepage: "https://github.com/incu6us/loki-mcp-server"
+    description: "MCP server exposing Grafana Loki log querying as MCP tools"
+    license: "MIT"
+    install: |
+      bin.install "loki-mcp-server"
+    test: |
+      assert_match version.to_s, shell_output("#{bin}/loki-mcp-server --version", 1)

@@ -24,6 +24,14 @@ Additionally, this server enforces **strict input validation** (limit caps, dire
 
 ## Installation
 
+### Homebrew
+
+```bash
+brew install incu6us/tap/loki-mcp-server
+```
+
+### Go install
+
 ```bash
 go install github.com/incu6us/loki-mcp-server/cmd/loki-mcp-server@latest
 ```
