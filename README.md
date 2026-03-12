@@ -1,5 +1,11 @@
 # loki-mcp-server
 
+[![CI](https://github.com/incu6us/loki-mcp-server/actions/workflows/ci.yml/badge.svg)](https://github.com/incu6us/loki-mcp-server/actions/workflows/ci.yml)
+[![Release](https://github.com/incu6us/loki-mcp-server/actions/workflows/release.yml/badge.svg)](https://github.com/incu6us/loki-mcp-server/actions/workflows/release.yml)
+[![codecov](https://codecov.io/gh/incu6us/loki-mcp-server/branch/main/graph/badge.svg)](https://codecov.io/gh/incu6us/loki-mcp-server)
+[![Go Report Card](https://goreportcard.com/badge/github.com/incu6us/loki-mcp-server)](https://goreportcard.com/report/github.com/incu6us/loki-mcp-server)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server that exposes Grafana Loki log querying capabilities as MCP tools. Designed to run as a stdio subprocess for MCP clients such as Claude Desktop and Claude Code.
 
 ## Motivation

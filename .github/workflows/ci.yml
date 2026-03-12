@@ -25,7 +25,11 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: "1.26.0"
-      - run: go test -race ./internal/...
+      - run: go test -race -coverprofile=coverage-unit.out -covermode=atomic ./internal/...
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-unit
+          path: coverage-unit.out
 
   test-e2e:
     runs-on: ubuntu-latest
@@ -34,7 +38,25 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: "1.26.0"
-      - run: go test -v -race -count=1 -timeout 120s ./tests/e2e
+      - run: go test -v -race -count=1 -timeout 120s -coverprofile=coverage-e2e.out -covermode=atomic -coverpkg=./internal/... ./tests/e2e
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-e2e
+          path: coverage-e2e.out
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs: [test-unit, test-e2e]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: coverage-*
+          merge-multiple: true
+      - uses: codecov/codecov-action@v5
+        with:
+          files: coverage-unit.out,coverage-e2e.out
+          fail_ci_if_error: false
 
   build:
     runs-on: ubuntu-latest
