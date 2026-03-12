@@ -199,3 +199,4 @@ go build -o loki-mcp-server ./cmd/loki-mcp-server
 go vet ./...
 ```
 
+⭐  If this project is useful for you, please star the repository.
