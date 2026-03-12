@@ -72,17 +72,19 @@ The server is configured entirely via environment variables, injected by the MCP
 
 ## Usage with Claude Code
 
-Add to your Claude Code MCP configuration:
+Add to your Claude Code MCP configuration (`~/.claude.json`):
 
 ```json
 {
   "mcpServers": {
     "loki-mcp-server": {
       "type": "stdio",
-      "command": "loki-mcp-server",
+      "command": "/path/to/loki-mcp-server",
+      "args": [],
       "env": {
         "LOKI_URL": "http://loki:3100",
-        "LOKI_TENANT_ID": "my-tenant"
+        "LOKI_USERNAME": "admin",
+        "LOKI_PASSWORD": "secret"
       }
     }
   }
