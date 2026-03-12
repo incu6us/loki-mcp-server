@@ -1,15 +1,5 @@
 # Loki MCP Server
 
-Query Grafana Loki logs directly from AI agents using the Model Context Protocol (MCP).
-
-Built in Go. Enables AI-powered log analysis using LogQL.
-
-Supports integration with:
-- Claude Desktop
-- AI agent frameworks
-- automation tools
-- DevOps workflows
-
 [![CI](https://github.com/incu6us/loki-mcp-server/actions/workflows/ci.yml/badge.svg)](https://github.com/incu6us/loki-mcp-server/actions/workflows/ci.yml)
 [![Release](https://github.com/incu6us/loki-mcp-server/actions/workflows/release.yml/badge.svg)](https://github.com/incu6us/loki-mcp-server/actions/workflows/release.yml)
 [![codecov](https://codecov.io/gh/incu6us/loki-mcp-server/branch/master/graph/badge.svg)](https://codecov.io/gh/incu6us/loki-mcp-server)
@@ -18,7 +8,15 @@ Supports integration with:
 ![Stars](https://img.shields.io/github/stars/incu6us/loki-mcp-server)
 ![MCP](https://img.shields.io/badge/MCP-compatible-green)
 
-A [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server that exposes Grafana Loki log querying capabilities as MCP tools. Designed to run as a stdio subprocess for MCP clients such as Claude Desktop and Claude Code.
+Query Grafana Loki logs directly from AI agents using the [Model Context Protocol](https://modelcontextprotocol.io/) (MCP).
+
+Built in Go. Enables AI-powered log analysis using LogQL.
+
+Supports integration with:
+- Claude Desktop
+- AI agent frameworks
+- automation tools
+- DevOps workflows
 
 ## Motivation
 
