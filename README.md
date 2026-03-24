@@ -8,6 +8,8 @@
 ![Stars](https://img.shields.io/github/stars/incu6us/loki-mcp-server)
 ![MCP](https://img.shields.io/badge/MCP-compatible-green)
 
+[![loki-mcp-server MCP server](https://glama.ai/mcp/servers/incu6us/loki-mcp-server/badges/card.svg)](https://glama.ai/mcp/servers/incu6us/loki-mcp-server)
+
 Query Grafana Loki logs directly from AI agents using the [Model Context Protocol](https://modelcontextprotocol.io/) (MCP).
 
 Built in Go. Enables AI-powered log analysis using LogQL.
