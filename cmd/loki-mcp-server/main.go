@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -11,7 +12,14 @@ import (
 	"github.com/mark3labs/mcp-go/server"
 )
 
+var version = "dev"
+
 func main() {
+	if len(os.Args) > 1 && os.Args[1] == "--version" {
+		fmt.Println(version)
+		return
+	}
+
 	logger := log.New(os.Stderr, "loki-mcp: ", log.LstdFlags)
 
 	cfg, err := config.Load()

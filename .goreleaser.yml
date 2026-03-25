@@ -4,6 +4,8 @@ project_name: loki-mcp-server
 builds:
   - main: ./cmd/loki-mcp-server
     binary: loki-mcp-server
+    ldflags:
+      - -s -w -X main.version={{.Version}}
     env:
       - CGO_ENABLED=0
     goos:
@@ -63,4 +65,4 @@ brews:
     install: |
       bin.install "loki-mcp-server"
     test: |
-      assert_match version.to_s, shell_output("#{bin}/loki-mcp-server --version", 1)
+      assert_match version.to_s, shell_output("#{bin}/loki-mcp-server --version")
