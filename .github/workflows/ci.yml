@@ -10,8 +10,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-go@v6
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
         with:
           # pinned: golangci-lint is built with go1.26 and panics on go1.27 stdlib sources
           go-version: "1.26.x"
@@ -22,8 +22,8 @@ jobs:
   test-unit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-go@v6
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
         with:
           go-version: "stable"
       - run: go test -race -coverprofile=coverage-unit.out -covermode=atomic ./internal/...
@@ -35,8 +35,8 @@ jobs:
   test-e2e:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-go@v6
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
         with:
           go-version: "stable"
       - run: go test -v -race -count=1 -timeout 120s -coverprofile=coverage-e2e.out -covermode=atomic -coverpkg=./internal/... ./tests/e2e
@@ -49,12 +49,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test-unit, test-e2e]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/download-artifact@v8
         with:
           pattern: coverage-*
           merge-multiple: true
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage-unit.out,coverage-e2e.out
@@ -64,8 +64,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: [lint, test-unit, test-e2e]
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-go@v6
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
         with:
           go-version: "stable"
       - run: go build -o loki-mcp-server ./cmd/loki-mcp-server
@@ -73,7 +73,7 @@ jobs:
   vuln:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: golang/govulncheck-action@v1
         with:
           go-version-input: stable
