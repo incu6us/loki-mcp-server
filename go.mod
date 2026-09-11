@@ -3,7 +3,7 @@ module github.com/incu6us/loki-mcp-server
 go 1.26.0
 
 require (
-	github.com/mark3labs/mcp-go v0.58.0
+	github.com/mark3labs/mcp-go v1.0.0
 	github.com/testcontainers/testcontainers-go v0.44.0
 )
 
