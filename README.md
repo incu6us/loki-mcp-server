@@ -12,6 +12,8 @@
 
 Query Grafana Loki logs directly from AI agents using the [Model Context Protocol](https://modelcontextprotocol.io/) (MCP).
 
+> **Need a custom MCP server for your own API, database or internal tool?** I build production-grade ones. [Hire me on Fiverr](https://www.fiverr.com/incu6us/build-a-custom-mcp-server-to-connect-your-tools-to-claude-and-ai-agents).
+
 Built in Go. Enables AI-powered log analysis using LogQL.
 
 Supports integration with:
